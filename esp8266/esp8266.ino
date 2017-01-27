@@ -1,8 +1,8 @@
 
 
-int LED_1 = 2;
-int INPUT_1 = 3; //avoid digital pins 0,1 for 2 pin buttons
-int INPUT_2 = 7;
+int LED_1 = 12;
+int INPUT_1 = 13; //avoid digital pins 0,1 for 2 pin buttons
+int INPUT_2 = 0;
 
 boolean input1Pressed = false;
 boolean input2Pressed = false;
@@ -21,17 +21,13 @@ void setup() {
   //pin config
   pinMode(LED_1, OUTPUT);
   pinMode(5, OUTPUT);
-  pinMode(INPUT_1, INPUT);
-  pinMode(INPUT_2, INPUT);
-  digitalWrite(INPUT_1, HIGH); //for 2 pin butons
-  digitalWrite(INPUT_2, HIGH); //for 2 pin butons
+  pinMode(INPUT_1, INPUT_PULLUP);
+  pinMode(INPUT_2, INPUT_PULLUP); //INPUT_PULLUP is for 2 pin buttons
 
+  //blink 3 times to indicate that code is loaded
   blinkLeds();
   blinkLeds();
   blinkLeds();
-  
-  digitalWrite(LED_1, LOW);  //HIGH is to disable led, LOW to enable
-  digitalWrite(5, LOW); 
  
 }
 
@@ -48,7 +44,7 @@ void loop() {
 
   } else if (STATE_READY == curState) {  
     blinkLedsFast();
-    if (digitalRead(INPUT_1) == HIGH && digitalRead(INPUT_2) == HIGH) {
+    if (digitalRead(INPUT_1) != LOW && digitalRead(INPUT_2) != LOW) {
       //leds off
       digitalWrite(LED_1, LOW);
       digitalWrite(5, LOW);
@@ -137,12 +133,12 @@ void enableLeds(){
 }
 
 void blinkLeds() {
-  digitalWrite(LED_1, LOW);  
-  digitalWrite(5, LOW);
-  delay(500); 
   digitalWrite(LED_1, HIGH);  
   digitalWrite(5, HIGH); 
-  delay(500); 
+  delay(500);
+  digitalWrite(LED_1, LOW);  
+  digitalWrite(5, LOW);
+  delay(500);  
 }
 
 void blinkLedsFast() {
