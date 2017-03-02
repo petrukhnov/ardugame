@@ -113,7 +113,7 @@ void loop() {
     curState = STATE_PREP;
   } 
 
-  delay(100); //wait 0.1 second
+  delay(10); //wait 0.1 second
   
 }
 
